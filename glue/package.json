@@ -1,8 +1,13 @@
 {
   "name": "glue",
   "version": "1.0.0",
+  "scripts": {
+    "build": "esbuild main.ts --bundle --format=esm --outfile=script.js",
+    "deploy": "curl -L --url https://app.spacemaker.ai/api/integrate/generator_bundle/shapediverbox/script.js --upload-file ./script.js --header 'Authorization: Bearer '$SM_TOKEN --header 'content-type:application/javascript'"
+  },
   "dependencies": {
-    "@shapediver/sdk.geometry-api-sdk-v2": "^1.1.0"
+    "@shapediver/sdk.geometry-api-sdk-v2": "^1.1.0",
+    "esbuild": "^0.15.13"
   },
   "scripts": {
     "build": "esbuild main.ts --bundle --outfile=script.js",
