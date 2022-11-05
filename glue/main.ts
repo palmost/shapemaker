@@ -11,7 +11,7 @@ export const init = async () => {
 
 }
 export const update = async (parameters: { [key: string]: any }) => {
-    const ticket = ""
+    const ticket = "0675204a3092e3e5c47aac9e8fe516de4abd22f22df710f6ad9ecfb3117f9f351af9c295c6efcf02db08fe6c76413ab70f0260e14610fe01b23761115abbe48966fd11fa6ebaa18bcf6a903b32c48224c3d7d2e963607aae2b3c444e6d65d8800717683f4a524d-a52b0bd56254ee507df83fd758043fcb"
     const sdk = create("https://sdr7euc1.eu-central-1.shapediver.com")
     const res = await sdk.session.init(ticket)
     const newModel = await sdk.utils.submitAndWaitForCustomization(sdk, res.sessionId!, parameters, 30)
