@@ -1,0 +1,10 @@
+{
+  "name": "glue",
+  "version": "1.0.0",
+  "dependencies": {
+    "@shapediver/sdk.geometry-api-sdk-v2": "^1.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  }
+}
