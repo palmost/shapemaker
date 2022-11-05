@@ -32,7 +32,7 @@ export const update = async (parameters: SpacemakerParams): Promise<GeneratorRes
     semaphore = true
     try {
         const shapeDiverParams = mapParams(parameters)
-        const ticket = "a9a9308fcd8b68f53b8c16ab3a013e3413212dfd198fe4ddb69b9d7de7e613d42ecce55e37c81e99ad399798de9bd9479e3a1d15212fccaeba592343a85097f4d66dfce4b67fb892dc2b98f5beefa4aa76d60a9c38f9f076febe3649f5ab8b2617b7f941fd4817-416f55bd3b13aaeb157012248f38b574"
+        const ticket = "05a93954d741db89755e2d278b0e5036a9e2378cc1e6a8ac6fab65e5e21c5ac0a4c660b942e4e48bd33d29867dbf1d60b672b6cee76675df021827a33f6b80dc67fe47db85ed421dbce10087d89c8954023d55ddf17dfc06060e206995e05ba42ac6a2d2e20a56-3fb3930d64102fd4f9ec953c0bb6fb79"
         const sdk = create("https://sdr7euc1.eu-central-1.shapediver.com")
         const res = await sdk.session.init(ticket)
         //@ts-ignore
