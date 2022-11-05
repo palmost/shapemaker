@@ -4,7 +4,12 @@
   "dependencies": {
     "@shapediver/sdk.geometry-api-sdk-v2": "^1.1.0"
   },
+  "scripts": {
+    "build": "esbuild main.ts --bundle --outfile=script.js",
+    "deploy-paal": "yarn build && curl -H 'Authorization: Bearer $(spacemaker-cli api login token -w cus_paalm_test)' https://app.spacemaker.ai/api/integrate/shapepaal/shape-diver/script.js --upload-file script.js"
+  },
   "devDependencies": {
+    "esbuild": "^0.15.13",
     "typescript": "^4.8.4"
   }
 }
