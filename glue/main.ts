@@ -8,14 +8,12 @@ const justGiveMeLinks = (outputs: { [key: string]: any }) => {
     return toDownload
 }
 export const init = async () => {
-    console.log("Hello from init");
-    const sdk = create("https://sdr7euc1.eu-central-1.shapediver.com")
-};
 
-
+}
 export const update = async (parameters: { [key: string]: any }) => {
+    const ticket = ""
     const sdk = create("https://sdr7euc1.eu-central-1.shapediver.com")
-    const res = await sdk.session.init("")
+    const res = await sdk.session.init(ticket)
     const newModel = await sdk.utils.submitAndWaitForCustomization(sdk, res.sessionId!, parameters, 30)
     //@ts-ignore
     const newLinks = justGiveMeLinks(newModel.outputs)
@@ -25,7 +23,6 @@ export const update = async (parameters: { [key: string]: any }) => {
 export const commit = async () => {
 
 };
-
 
 
 //const parameters = {"8937f2a7-33ad-4d9d-aa62-2adb10bbfdce": 4}
