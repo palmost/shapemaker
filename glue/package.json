@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "esbuild main.ts --bundle --format=esm --outfile=script.js",
-    "deploy": "yarn build && curl -L --url https://app.spacemaker.ai/api/integrate/generator_bundle/shapediverbox/script.js --upload-file ./script.js --header 'Authorization: Bearer '$SM_TOKEN --header 'content-type:application/javascript'",
-    "deploy-paal": "yarn build && curl -L --url https://app.spacemaker.ai/api/integrate/generator_bundle/shapepaal/script.js --upload-file ./script.js --header 'Authorization: Bearer '$SM_TOKEN --header 'content-type:application/javascript'"
+    "deploy": "yarn build && curl -L --url https://app.spacemaker.ai/api/integrate/generator_bundle/shapediverbox/script.js --upload-file ./script.js -H 'Authorization: Bearer $(spacemaker-cli api login token -w cus_paalm_test)' --header 'content-type:application/javascript'"
   },
   "dependencies": {
     "@shapediver/sdk.geometry-api-sdk-v2": "^1.1.0",
