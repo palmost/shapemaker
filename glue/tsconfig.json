@@ -9,12 +9,20 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "strict": true,
-    "target": "es2019",
     "outDir": ".build",
     "moduleResolution": "node",
     "module": "commonjs",
-    "lib": ["es2019", "es2020.string", "es2020.symbol.wellknown", "DOM"], // DOM because @aws-sdk/client-s3 uses some of the DOM types that does not exist in node. This is the only fix I am able to find right now that suppresses all warnings..
+    "lib": [
+      "es2019",
+      "es2020.string",
+      "es2020.symbol.wellknown",
+      "DOM"
+    ],
+    // DOM because @aws-sdk/client-s3 uses some of the DOM types that does not exist in node. This is the only fix I am able to find right now that suppresses all warnings..
     "rootDir": "./",
-    "typeRoots": ["./types", "./node_modules/@types"]
+    "typeRoots": [
+      "./types",
+      "./node_modules/@types"
+    ]
   }
 }
