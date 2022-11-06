@@ -46,6 +46,5 @@ export const commit = async (params: SpacemakerParams) => {
     const gltfUrl = getGltfUrl(newModel)!
     const data = await sdk.utils.download(gltfUrl, ShapeDiverSdkApiResponseType.DATA)
 
-
 };
 
