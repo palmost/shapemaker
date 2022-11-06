@@ -7,11 +7,14 @@ import {
 
 
 type SpacemakerParams = {
-
+    "a6f89594-6a2c-4fcb-abd8-774db952d7e": number
+    "de401644-53b9-4414-a042-6463f35892e2": [number, number][]
 }
 
 
 const mapParams = (smParams: SpacemakerParams) => ({
+    "a6f89594-6a2c-4fcb-abd8-774db952d7e": smParams["a6f89594-6a2c-4fcb-abd8-774db952d7e"],
+    "de401644-53b9-4414-a042-6463f35892e2": JSON.stringify({points: smParams["de401644-53b9-4414-a042-6463f35892e2"].map((point) => [point[0], point[1], 0])})
 
 })
 const getGltfUrl = (res: ShapeDiverResponseDto) => {
@@ -45,6 +48,8 @@ export const commit = async (params: SpacemakerParams) => {
     const newModel = await sdk.utils.submitAndWaitForCustomization(sdk, res.sessionId!, parameters, 30)
     const gltfUrl = getGltfUrl(newModel)!
     const data = await sdk.utils.download(gltfUrl, ShapeDiverSdkApiResponseType.DATA)
+
+
 
 };
 
