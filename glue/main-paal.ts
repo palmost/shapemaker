@@ -1,47 +1,51 @@
-import {create, ShapeDiverSdkApiResponseType} from "@shapediver/sdk.geometry-api-sdk-v2";
+import {
+    create,
+    ShapeDiverResponseDto,
+    ShapeDiverResponseOutput,
+    ShapeDiverSdkApiResponseType
+} from "@shapediver/sdk.geometry-api-sdk-v2";
 
 
 type SpacemakerParams = {
-    "8937f2a7-33ad-4d9d-aa62-2adb10bbfdce": number
-    polygon: [number, number][]
+
 }
 
 
 const mapParams = (smParams: SpacemakerParams) => ({
-    "8937f2a7-33ad-4d9d-aa62-2adb10bbfdce": smParams["8937f2a7-33ad-4d9d-aa62-2adb10bbfdce"],
-    "de401644-53b9-4414-a042-6463f35892e2": JSON.stringify(smParams.polygon.map((point) => [point[0], point[1], 0]))
+
 })
-const justGiveMeLinks = (outputs: { [key: string]: any }) => {
-    const toDownload: string[] = []
-    Object.keys(outputs).forEach(x => {
-        toDownload.push(outputs[x].content[0].href)
-    })
-    return toDownload
+const getGltfUrl = (res: ShapeDiverResponseDto) => {
+    const outputIds = Object.keys(res.outputs!)
+    const gltfOutputId = outputIds.find((i) => res.outputs![i].name === "glTFDisplay")
+    return (res.outputs![gltfOutputId!] as ShapeDiverResponseOutput).content![0].href
 }
+
 export const init = async () => {
 
 }
 export const update = async (params: SpacemakerParams) => {
     const parameters = mapParams(params)
-    const backendTicket = "876e64316f8860442aefbefa06ec65dafa2e740e96acc263756bf0ebdb0e9af8f3cb60766f61c2670956c178fa546fcc7d2c9eeeec8fe3ad2f5c4398eb068c89477cfeda7f7f3e41dd869963418b878d037e1d27809d712ac06edb0329be54792de10929de9a292cb0f16abd46d8f4396f577e798c61f541-d138b0173447e2134e2535695d47f6f6"
-    //const ticket = "a9a9308fcd8b68f53b8c16ab3a013e3413212dfd198fe4ddb69b9d7de7e613d42ecce55e37c81e99ad399798de9bd9479e3a1d15212fccaeba592343a85097f4d66dfce4b67fb892dc2b98f5beefa4aa76d60a9c38f9f076febe3649f5ab8b2617b7f941fd4817-416f55bd3b13aaeb157012248f38b574"
+    const ticket =
+        "a793b4adbfa7574d515167662de0194e296cf549f42a3797416fb6d14ade87e0c15e9bc4218add2c0d03eea785723c010b9b3143f25b00d129781bd1a530c38d3355210530ad30c1d6cebd1f932d019d7a37d72c38723abd77b448835c63c6a5cdb9954e5739de-fe19d8f6e4a94e5fecaed6abec458eba"
     const sdk = create("https://sdr7euc1.eu-central-1.shapediver.com")
-    const res = await sdk.session.init(backendTicket)
+    const res = await sdk.session.init(ticket)
     //@ts-ignore
     const newModel = await sdk.utils.submitAndWaitForCustomization(sdk, res.sessionId!, parameters, 30)
-    //@ts-ignore
-    console.log(newModel)
-    const newLinks = justGiveMeLinks(newModel.outputs!)
-    const data = await sdk.utils.download(newLinks[0], ShapeDiverSdkApiResponseType.DATA)
+    const gltfUrl = getGltfUrl(newModel)!
+    const data = await sdk.utils.download(gltfUrl, ShapeDiverSdkApiResponseType.DATA)
     return data
 };
-export const commit = async () => {
+export const commit = async (params: SpacemakerParams) => {
+    const parameters = mapParams(params)
+    const ticket =
+        "a793b4adbfa7574d515167662de0194e296cf549f42a3797416fb6d14ade87e0c15e9bc4218add2c0d03eea785723c010b9b3143f25b00d129781bd1a530c38d3355210530ad30c1d6cebd1f932d019d7a37d72c38723abd77b448835c63c6a5cdb9954e5739de-fe19d8f6e4a94e5fecaed6abec458eba"
+    const sdk = create("https://sdr7euc1.eu-central-1.shapediver.com")
+    const res = await sdk.session.init(ticket)
+    //@ts-ignore
+    const newModel = await sdk.utils.submitAndWaitForCustomization(sdk, res.sessionId!, parameters, 30)
+    const gltfUrl = getGltfUrl(newModel)!
+    const data = await sdk.utils.download(gltfUrl, ShapeDiverSdkApiResponseType.DATA)
+
 
 };
 
-//
-// const parameters = {"8937f2a7-33ad-4d9d-aa62-2adb10bbfdce": 4}
-//
-// update(parameters).then(() => {
-//     console.log("success!")
-// })
