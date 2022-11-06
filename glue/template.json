@@ -1,0 +1,22 @@
+{
+  "owner": "SHAPEDIVER",
+  "name": "shapediver 2",
+  "bundleId": "shapediverboxhacks",
+  "parameters": [
+    {
+      "key": "a6f89594-6a2c-4fcb-abd8-774db952d7e",
+      "type": "NUMBER",
+      "displayName": "Levels",
+      "default": 15,
+      "min": 2,
+      "max": 15,
+      "ui": "RANGE",
+      "step": 1
+    },
+    {
+      "key": "de401644-53b9-4414-a042-6463f35892e2",
+      "type": "POLYGON",
+      "displayName": "Footprint"
+    }
+  ]
+}
