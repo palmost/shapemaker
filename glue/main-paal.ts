@@ -9,13 +9,15 @@ import {ElementResponse, Transform} from "./types";
 const MAGIC_URN = 'ada0cfd4-fd26-4faf-91cb-3e4c391a794d'
 
 type SpacemakerParams = {
-    "a6f89594-6a2c-4fcb-abd8-774db952d7e": number
+    "a6f89594-6a2c-4fcb-abd8-774db952d7e": number,
+    "dfdd143c-0541-4612-b479-0f1244a88411": number,
     "de401644-53b9-4414-a042-6463f35892e2": [number, number][]
 }
 
 
 const mapParams = (smParams: SpacemakerParams) => ({
     "a6f89594-6a2c-4fcb-abd8-774db952d7ec": smParams["a6f89594-6a2c-4fcb-abd8-774db952d7e"],
+    "dfdd143c-0541-4612-b479-0f1244a88411": smParams["dfdd143c-0541-4612-b479-0f1244a88411"],
     "de401644-53b9-4414-a042-6463f35892e2": JSON.stringify({points: smParams["de401644-53b9-4414-a042-6463f35892e2"].map((point) => [point[0], point[1], 0])})
 
 })
@@ -34,7 +36,7 @@ export const update = async (params: SpacemakerParams) => {
 export const commit = async (params: SpacemakerParams, callback: any, transform: Transform) => {
     const parameters = mapParams(params)
     const ticket =
-        "2a3f8d64e0b74fb5479980f1396614b812f009893f4451b24ec709ee87a53f216a8ea375635402439e4158bc4ce368cfd4efed77b848a6fc494e53b203f60c603b99b0dcc16c179c5bb9d3627146c350d9102b3e7c6a1cc5c79a137c24b99ce45e993da6001aab-d34ad34c35da284cb7f333895961e14c"
+        "9d00e057cdf3dcf2479074be41379d8eb268648ffd728775ddf6910e656cbe420da8856528bdafd6dbe7fcb47328fae3dc1d4b71b95677574afdc3022015220e841bd407ee312ee512c83e3cf5f524ee3b6d1ff8e3468f1eead7bca5392b2e57d0da4978d4035d-20679ec4a73c41f6ac97ba1ecb312dc1"
     const sdk = create("https://sddev2.eu-central-1.shapediver.com")
     const res = await sdk.session.init(ticket)
     //@ts-ignore
