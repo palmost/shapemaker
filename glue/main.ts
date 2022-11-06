@@ -144,6 +144,7 @@ const mapSpecificObj = (objBuffer: ArrayBuffer): ParsedObj[] => {
     }
     let previousLineType = ''
     resetCurrent()
+    let vStart = 0
     lines.forEach((line, index) => {
         if (line.startsWith('#')){
             return
@@ -154,10 +155,13 @@ const mapSpecificObj = (objBuffer: ArrayBuffer): ParsedObj[] => {
             resetCurrent()
         }
         previousLineType = currentLineType
+        if (currentLineType == 'v' && previousLineType !== 'v'){
+            vStart = index + 1
+        }
         if (currentLineType == 'v'){
             currentObj.verts.push(...[x,y,z].map(Number))
         } else if (currentLineType == 'f'){
-            currentObj.faces.push(...[x,y,z].map(Number))
+            currentObj.faces.push(...[x,y,z].map(Number).map(f => f - vStart))
         }
     })
     parsedObjs.push(currentObj)
@@ -165,7 +169,7 @@ const mapSpecificObj = (objBuffer: ArrayBuffer): ParsedObj[] => {
 
 }
 
-const mapObj = (objBuffer: ArrayBuffer): ParsedObj => {
+const mapObj = (objBuffer: ArrayBuffer): ParsedObj[] => {
     const decoder = new TextDecoder("utf-8")
     const obj = decoder.decode(objBuffer)
     const loader = new OBJLoader();
@@ -204,7 +208,7 @@ const mapObj = (objBuffer: ArrayBuffer): ParsedObj => {
     });
     console.log(models)
     //@ts-ignore
-    return models[0]
+    return models
 };
 
 //
