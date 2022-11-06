@@ -51,8 +51,8 @@ export const commit = async (params: SpacemakerParams, callback: any, transform:
 
 const uploadElement = async (data: ArrayBuffer, revision: number, transform: Transform): Promise<string> => {
     await uploadGlb(data, revision)
-    const urnOfElement = `urn:adsk-forma-elements:integrate:pro_qtqpsxku4u:ada0cfd4-fd26-4faf-91cb-3e4c391a794h:${revision}`
-    const urnOfPointer = `urn:adsk-forma-elements:integrate:pro_qtqpsxku4u:ada0cfd4-fd26-4faf-91cb-3e4c391a794d:${revision}`
+    const urnOfElement = `urn:adsk-forma-elements:integrate:pro_tfrapb8v4l:ada0cfd4-fd26-4faf-91cb-3e4c391a794h:${revision}`
+    const urnOfPointer = `urn:adsk-forma-elements:integrate:pro_tfrapb8v4l:ada0cfd4-fd26-4faf-91cb-3e4c391a794d:${revision}`
 
     const elementResponse: ElementResponse = {
         [urnOfPointer]:{
