@@ -32,8 +32,8 @@ export const update = async (parameters: SpacemakerParams): Promise<GeneratorRes
     semaphore = true
     try {
         const shapeDiverParams = mapParams(parameters)
-        const ticket = "05a93954d741db89755e2d278b0e5036a9e2378cc1e6a8ac6fab65e5e21c5ac0a4c660b942e4e48bd33d29867dbf1d60b672b6cee76675df021827a33f6b80dc67fe47db85ed421dbce10087d89c8954023d55ddf17dfc06060e206995e05ba42ac6a2d2e20a56-3fb3930d64102fd4f9ec953c0bb6fb79"
-        const sdk = create("https://sdr7euc1.eu-central-1.shapediver.com")
+        const ticket = "2972bb403a6ed50c1307ffa54a2a3ffa30c41b8db8165f7780a33f015d7ccda424609d59f794a0ec104ae0daa18273f838b46a18a595887ca69e8c254250b01a89fbf602e333b65d61f970239499e3bd58ff0a590e033700b131b0a30930ed1c906bfb5fa00f17-87fe015fba6bd982eeb2a4592b84d12d"
+        const sdk = create("https://sddev2.eu-central-1.shapediver.com")
         const res = await sdk.session.init(ticket)
         //@ts-ignore
         const exportId = Object.keys(res.exports)[0]
@@ -45,8 +45,9 @@ export const update = async (parameters: SpacemakerParams): Promise<GeneratorRes
         const newLinks = justGiveMeLinks(newModel.exports!)
         const [_, objBuffer] = await sdk.utils.download(newLinks[0], ShapeDiverSdkApiResponseType.DATA) as [any, ArrayBuffer]
         console.log(objBuffer)
-        const obj = mapSpecificObj(objBuffer)
+        const obj = mapObj(objBuffer)
         console.log(obj)
+        debugger
         const elements = {
             rootElement: "1",
             elements: {
@@ -206,6 +207,7 @@ const mapObj = (objBuffer: ArrayBuffer): ParsedObj[] => {
         }
         return obj;
     });
+    debugger
     console.log(models)
     //@ts-ignore
     return models
