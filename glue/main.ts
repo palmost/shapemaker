@@ -13,13 +13,13 @@ export const init = async () => {
 
 type SpacemakerParams = {
     "8937f2a7-33ad-4d9d-aa62-2adb10bbfdce": number
-    polygon: [number, number][]
+    "de401644-53b9-4414-a042-6463f35892e2": [number, number][]
 }
 
 
 const mapParams = (smParams: SpacemakerParams) => ({
     "8937f2a7-33ad-4d9d-aa62-2adb10bbfdce": smParams["8937f2a7-33ad-4d9d-aa62-2adb10bbfdce"],
-    "de401644-53b9-4414-a042-6463f35892e2": JSON.stringify({points: smParams.polygon.map((point) => [point[0], point[1], 0])})
+    "de401644-53b9-4414-a042-6463f35892e2": JSON.stringify({points: smParams["de401644-53b9-4414-a042-6463f35892e2"].map((point) => [point[0], point[1], 0])})
 })
 let semaphore = false
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -45,7 +45,7 @@ export const update = async (parameters: SpacemakerParams): Promise<GeneratorRes
         const newLinks = justGiveMeLinks(newModel.exports!)
         const [_, objBuffer] = await sdk.utils.download(newLinks[0], ShapeDiverSdkApiResponseType.DATA) as [any, ArrayBuffer]
         console.log(objBuffer)
-        const obj = mapObj(objBuffer)
+        const obj = mapSpecificObj(objBuffer)
         console.log(obj)
         const elements = {
             rootElement: "1",
@@ -56,9 +56,9 @@ export const update = async (parameters: SpacemakerParams): Promise<GeneratorRes
                     geometry: {
                         color: [255,255,100],
                         //@ts-ignore
-                        verts: new Float32Array(obj.verts),
+                        verts: new Float32Array(obj[0].verts),
                         //@ts-ignore
-                        indices: obj.faces
+                        indices: obj[0].faces
                     },
                     properties:{}
                 }
@@ -120,7 +120,52 @@ export type GeneratorElement = {
 export type GeneratorElements = { [keyof: string]: GeneratorElement }
 export type GeneratorResponse = { rootElement: string; elements: GeneratorElements }
 
-const mapObj = (objBuffer: ArrayBuffer) => {
+type ParsedObj = {
+    verts: number[]
+    faces: number[]
+}
+
+
+const mapSpecificObj = (objBuffer: ArrayBuffer): ParsedObj[] => {
+    const decoder = new TextDecoder("utf-8")
+    const obj = decoder.decode(objBuffer)
+    const lines = obj.split('\n')
+    const parsedObjs = [] as ParsedObj[]
+
+    let currentObj: ParsedObj = {
+        verts: [],
+        faces: []
+    }
+    const resetCurrent = () => {
+        currentObj = {
+            verts: [],
+            faces: []
+        }
+    }
+    let previousLineType = ''
+    resetCurrent()
+    lines.forEach((line, index) => {
+        if (line.startsWith('#')){
+            return
+        }
+        const [currentLineType, x,y,z] = line.split(' ')
+        if (currentLineType == 'v'  && previousLineType == 'f'){
+            parsedObjs.push(currentObj)
+            resetCurrent()
+        }
+        previousLineType = currentLineType
+        if (currentLineType == 'v'){
+            currentObj.verts.push(...[x,y,z].map(Number))
+        } else if (currentLineType == 'f'){
+            currentObj.faces.push(...[x,y,z].map(Number))
+        }
+    })
+    parsedObjs.push(currentObj)
+    return parsedObjs
+
+}
+
+const mapObj = (objBuffer: ArrayBuffer): ParsedObj => {
     const decoder = new TextDecoder("utf-8")
     const obj = decoder.decode(objBuffer)
     const loader = new OBJLoader();
@@ -158,6 +203,7 @@ const mapObj = (objBuffer: ArrayBuffer) => {
         return obj;
     });
     console.log(models)
+    //@ts-ignore
     return models[0]
 };
 
