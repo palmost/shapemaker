@@ -76,7 +76,10 @@ const uploadElement = async (data: ArrayBuffer, revision: number, transform: Tra
         [urnOfPointer]:{
             urn: urnOfPointer,
             transform: transform,
-            children:[urnOfElement]
+            children:[urnOfElement],
+            properties:{
+                userDefinedMetrics: metrics
+            }
         },
         [urnOfElement]:{
             urn: urnOfElement,
